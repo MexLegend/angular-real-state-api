@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+enum ListingCategory {
+  Apartment
+  Building
+  Bungalow
+  Condominium
+  House
+  Residential
+  Townhouse
+  Villa
+}
+
+enum Role {
+  Admin
+  Agent
+  New
+}
+
+model Features {
+  bathroomCount Int
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  listing       Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId     String  @unique @db.ObjectId
+  propertyArea  Int
+  roomCount     Int
+}
+
+model Image {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  listing   Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId String  @db.ObjectId
+  public_id  String
+  url       String
+}
+
+model Listing {
+  amenities   String[]
+  categories  String[]
+  createdAt   DateTime  @default(now())
+  description String
+  features    Features?
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  images      Image[]
+  location    Location?
+  price       String
+  rating      Float?
+  title       String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      String    @db.ObjectId
+}
+
+model Location {
+  address     String?
+  coordinates Float[]
+  country     String
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  listing     Listing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  listingId   String  @unique @db.ObjectId
+  place       String?
+  placeName   String
+  postCode    Int?
+  region      String
+}
+
+model User {
+  createdAt      DateTime  @default(now())
+  email          String?   @unique
+  emailVerified  DateTime?
+  favoriteIds    String[]  @db.ObjectId
+  hashedPassword String?
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  image          String?
+  listings       Listing[]
+  name           String?
+  phone          String?
+  role           Role      @default(New)
+  updatedAt      DateTime  @updatedAt
+}
