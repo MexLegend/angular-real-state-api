@@ -46,6 +46,13 @@ CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 ```
 
+## Prisma configuration
+
+```bash
+$ pnpm prisma generate
+$ pnpm prisma db push
+```
+
 ## Running the app
 
 ```bash
