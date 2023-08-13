@@ -56,6 +56,3 @@ $ pnpm run test:e2e
 
 # test coverage
 $ pnpm run test:cov
-```
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
