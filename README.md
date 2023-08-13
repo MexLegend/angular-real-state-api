@@ -32,6 +32,20 @@
 $ pnpm install
 ```
 
+## Setup .env file
+
+```js
+EMAIL_HOST=
+EMAIL_PWD=
+EMAIL_USER=
+JWT_SECRET=
+JWT_RT_SECRET=
+DATABASE_URL=
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+```
+
 ## Running the app
 
 ```bash
@@ -44,15 +58,3 @@ $ pnpm run start:dev
 # production mode
 $ pnpm run start:prod
 ```
-
-## Test
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
