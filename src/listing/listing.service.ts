@@ -7,15 +7,15 @@ import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
 interface QueryListing {
   category: string | string;
   userId: string | string;
-  locationParams: string[] | string
+  locationParams: string[] | string;
 }
 
 @Injectable()
 export class ListingService {
   constructor(
     private readonly _prismaService: PrismaService,
-    private readonly _cloudinaryService: CloudinaryService
-  ) { }
+    private readonly _cloudinaryService: CloudinaryService,
+  ) {}
 
   async addRemoveFavorite(
     listingId: string,
@@ -65,14 +65,12 @@ export class ListingService {
     { features, images, location, ...listing }: ListingDto,
     listingId: string,
   ) {
-
     console.log({ features, images, location, ...listing });
     console.log(JSON.parse(listingId));
 
-
     return await this._prismaService.listing.update({
       where: {
-        id: JSON.parse(listingId)
+        id: JSON.parse(listingId),
       },
       data: {
         ...listing,
@@ -84,7 +82,6 @@ export class ListingService {
   }
 
   async deleteListing(listingId: string) {
-
     const listing = await this._prismaService.listing.findUnique({
       where: {
         id: listingId,
@@ -92,14 +89,14 @@ export class ListingService {
       include: { images: true },
     });
 
-    const listingImages = listing.images.map(image => image.public_id);
+    const listingImages = listing.images.map((image) => image.public_id);
 
     this._cloudinaryService.deleteImages(listingImages);
 
     await this._prismaService.listing.delete({
       where: {
-        id: listingId
-      }
+        id: listingId,
+      },
     });
 
     return { ok: true };
@@ -117,46 +114,47 @@ export class ListingService {
   async getListings({ category, userId, locationParams }: QueryListing) {
     return await this._prismaService.listing.findMany({
       where: {
-        ...(category && category !== "undefined" ? { categories: { has: category } } : {}),
-        ...(userId && userId !== "undefined" ? { userId } : {}),
-        ...(locationParams && locationParams !== "undefined" ? {
-          location: {
-            OR: [
-              {
-                placeName: { in: locationParams },
+        ...(category && category !== 'undefined'
+          ? { categories: { has: category } }
+          : {}),
+        ...(userId && userId !== 'undefined' ? { userId } : {}),
+        ...(locationParams && locationParams !== 'undefined'
+          ? {
+              location: {
+                OR: [
+                  {
+                    placeName: { in: locationParams },
+                  },
+                  {
+                    place: { in: locationParams },
+                  },
+                  {
+                    region: { in: locationParams },
+                  },
+                ],
               },
-              {
-                place: { in: locationParams },
-              },
-              {
-                region: { in: locationParams }
-              }
-            ]
-          }
-        } : {})
+            }
+          : {}),
       },
       include: { images: true, features: true, location: true, user: true },
     });
   }
 
   async getFavoriteListings({ listingIds }: { listingIds: string[] }) {
-
     return await this._prismaService.listing.findMany({
       where: {
-        id: { in: listingIds }
+        id: { in: listingIds },
       },
       include: { images: true, features: true, location: true, user: true },
     });
   }
 
   async getAgentProperties({ userId }: { userId: string }) {
-
     return await this._prismaService.listing.findMany({
       where: {
-        userId: userId
+        userId: userId,
       },
       include: { images: true, features: true, location: true, user: true },
     });
   }
-
 }

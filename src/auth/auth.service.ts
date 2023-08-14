@@ -1,8 +1,4 @@
-import {
-  ForbiddenException,
-  Inject,
-  Injectable
-} from '@nestjs/common';
+import { ForbiddenException, Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as argon from 'argon2';
@@ -20,7 +16,7 @@ export class AuthService {
     private jwtService: JwtService,
     private readonly _prismaService: PrismaService,
     @Inject(CACHE_MANAGER) private cacheManager: Cache,
-  ) { }
+  ) {}
 
   async login({ email, password }: LoginDto) {
     const user = await this._prismaService.user.findUnique({
@@ -72,7 +68,7 @@ export class AuthService {
     return {};
   }
 
-  async refresh(userId: string, refreshToken: string) {
+  async refresh(userId: string) {
     const user = await this._prismaService.user.findUnique({
       where: {
         id: userId,

@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PassportSerializer } from '@nestjs/passport';
 
 import { UserService } from '../../user/user.service';
@@ -9,12 +9,15 @@ export class SessionSerializer extends PassportSerializer {
     super();
   }
 
-  serializeUser(user: any, done: Function) {
+  serializeUser(user: any, done: (param1: any, param2: any) => void) {
     console.log('Serializer User');
     done(null, user);
   }
 
-  async deserializeUser(payload: any, done: Function) {
+  async deserializeUser(
+    payload: any,
+    done: (param1: any, param2: any) => void,
+  ) {
     const user = await this._userService.getAgent(payload.id);
     console.log('Deserialize User');
     console.log(user);

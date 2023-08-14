@@ -34,6 +34,6 @@ export class AuthController {
   @Post('refresh')
   refresh(@Req() request) {
     const { refreshToken, sub: userId } = request;
-    return this._authService.refresh(userId, refreshToken);
+    return this._authService.refresh(userId);
   }
 }

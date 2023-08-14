@@ -18,17 +18,23 @@ import { Public } from '../auth/decorators/public.decorator';
 
 @Controller('listings')
 export class ListingController {
-  constructor(private readonly _listingService: ListingService) { }
+  constructor(private readonly _listingService: ListingService) {}
 
   @Post('create')
   @HttpCode(HttpStatus.OK)
-  createListing(@Body() listing: ListingDto, @GetCurrentUserId() userId: string) {
+  createListing(
+    @Body() listing: ListingDto,
+    @GetCurrentUserId() userId: string,
+  ) {
     return this._listingService.createListing(listing, userId);
   }
 
   @Put(':listingId')
   @HttpCode(HttpStatus.OK)
-  updateListing(@Body() listing: ListingDto, @Param('listingId') listingId: string) {
+  updateListing(
+    @Body() listing: ListingDto,
+    @Param('listingId') listingId: string,
+  ) {
     return this._listingService.updateListing(listing, listingId);
   }
 
