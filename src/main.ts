@@ -7,8 +7,6 @@ async function bootstrap() {
     // origin: '*',
     origin: process.env.FRONTEND_URL,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
   });
   app.setGlobalPrefix('api');
 
