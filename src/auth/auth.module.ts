@@ -6,7 +6,6 @@ import { AuthService } from './auth.service';
 import { AuthGuardProvider } from './guards/jwt-auth.guard';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { JwtRefreshStrategy } from './strategies/jwt-refresh.strategy';
-import { GoogleStrategy } from './strategies/google.strategy';
 import { SessionSerializer } from './utils/serializer';
 import { UserService } from '../user/user.service';
 
@@ -15,7 +14,6 @@ import { UserService } from '../user/user.service';
   providers: [
     AuthGuardProvider,
     AuthService,
-    GoogleStrategy,
     JwtRefreshStrategy,
     JwtService,
     JwtStrategy,
