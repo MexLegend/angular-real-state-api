@@ -35,6 +35,7 @@ $ pnpm install
 ## Setup .env file
 
 ```js
+FRONTEND_URL=
 EMAIL_HOST=
 EMAIL_PWD=
 EMAIL_USER=
